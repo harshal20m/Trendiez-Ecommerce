@@ -1,0 +1,15 @@
+/* PaymentComponent.css */
+.payment-container {
+	text-align: center;
+}
+
+.payment-image {
+	margin-top: 100px;
+	width: 350px; /* Adjust size as needed */
+	height: auto;
+}
+
+.payment-heading {
+	font-size: 24px;
+	margin-top: 20px;
+}

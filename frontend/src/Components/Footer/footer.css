@@ -1,0 +1,155 @@
+.footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 50px;
+}
+.footer-logo {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+.footer-logo img {
+	padding-bottom: 20px;
+	height: 100px;
+	width: 100px;
+}
+.footer-logo h1 {
+	color: #383838;
+	font-size: 46px;
+	font-weight: 700;
+}
+.footer-links {
+	display: flex;
+	list-style: none;
+	gap: 50px;
+	color: #252525;
+	font-size: 20px;
+}
+.footer-links li {
+	cursor: pointer;
+}
+.footer-social-icons {
+	display: flex;
+	gap: 20px;
+}
+.footer-icons-container {
+	padding: 10px;
+	padding-bottom: 6px;
+	background: #fbfbfb;
+	border: 1px solid #ebebeb;
+}
+.footer-copyright {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	width: 100%;
+	margin-bottom: 30px;
+	color: #1a1a1a;
+	font-size: 20px;
+}
+.footer-copyright hr {
+	width: 80%;
+	border: none;
+	border-radius: 10px;
+	height: 3px;
+	background: #c7c7c7;
+}
+@media (max-width: 800px) {
+	.footer {
+		gap: 20px;
+	}
+	.footer-logo {
+		gap: 10px;
+		align-items: end;
+	}
+	.footer-logo img {
+		width: 40px;
+	}
+	.footer-logo p {
+		font-size: 25px;
+	}
+	.footer-links {
+		font-size: 14px;
+		gap: 10px;
+	}
+	.footer-social-icons img {
+		width: 22px;
+	}
+	.footer-copyright {
+		font-size: 13px;
+	}
+}
+
+.footer-logo h1 {
+	position: relative;
+}
+
+.footer-logo h1 span {
+	color: #262626;
+	background: #fff;
+	padding: 1px 1px;
+	display: table-cell;
+	animation: animate 8s infinite;
+}
+
+/* Specify the animation keyframes
+	to be used to move the letters */
+@keyframes animate {
+	0% {
+		transform: translateY(0px);
+	}
+	10% {
+		transform: translateY(-20px);
+	}
+
+	20%,
+	90% {
+		/* Pause for 5 seconds at the beginning and end */
+		transform: translateY(-20px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+/* Specify a slight delay for
+	each of the letters */
+.footer-logo h1 span:nth-child(1) {
+	animation-delay: 0.1s;
+}
+
+.footer-logo h1 span:nth-child(2) {
+	animation-delay: 0.2s;
+}
+
+.footer-logo h1 span:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+.footer-logo h1 span:nth-child(4) {
+	animation-delay: 0.4s;
+}
+
+.footer-logo h1 span:nth-child(5) {
+	animation-delay: 0.5s;
+}
+
+.footer-logo h1 span:nth-child(6) {
+	animation-delay: 0.6s;
+}
+
+.footer-logo h1 span:nth-child(7) {
+	animation-delay: 0.7s;
+}
+
+.footer-logo h1 span:nth-child(8) {
+	animation-delay: 0.8s;
+}
+
+.footer-logo h1 span:nth-child(9) {
+	animation-delay: 0.9s;
+}
