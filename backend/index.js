@@ -6,12 +6,14 @@ const jwt = require("jsonwebtoken"); // generate the token and vewrify the token
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const env = require("dotenv");
+env.config();
 
 app.use(express.json());
 app.use(cors());
 
 //database connection with mongodb
-const uri = "mongodb+srv://harshalmali:20harshu@cluster0.ams9r9t.mongodb.net/e-commerce";
+const uri = process.env.MONGO_URI;
 // mongoose.connect("mongodb+srv://harshalmali:20harshu@cluster0.ams9r9t.mongodb.net/e-commerce");
 mongoose
 	.connect(uri)
