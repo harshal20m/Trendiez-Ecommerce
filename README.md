@@ -46,6 +46,11 @@ Trendiez-Ecommerce is a modern, full-stack e-commerce web application built with
         cd frontend
         npm start
         ```
+    - Dashboard:
+        ```sh
+        cd dashboard
+        npm start
+        ```
 
 ## Usage
 
