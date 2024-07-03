@@ -6,7 +6,7 @@ Trendiez-Ecommerce is a modern, full-stack e-commerce web application built with
 
 - **User Authentication**: Secure user registration and login functionality.
 - **Product Management**: Admin can add, update, and delete products.
-- - **Dashboard feature**: Admin can list add, update, and delete products from dashboard into the main website.
+- **Dashboard feature**: Admin can list add, update, and delete products from dashboard into the main website.
 - **Shopping Cart**: Users can add products to the cart and manage their cart items.
 - **Order Management**: Users can place orders and view their order history.
 - **Responsive Design**: Optimized for desktop and mobile devices.
