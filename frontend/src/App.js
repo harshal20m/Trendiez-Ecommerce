@@ -17,21 +17,31 @@ import Payment from "./Components/Payment/Payment";
 import { useEffect, useState } from "react";
 
 const Loading = () => {
-	const [timeLeft, setTimeLeft] = useState(60); // 60 seconds countdown
+	const [timeLeft, setTimeLeft] = useState(90); // 90 seconds countdown
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
 		}, 1000);
 
+		// Refresh the page when the timer reaches zero
+		if (timeLeft === 0) {
+			window.location.reload();
+		}
+
 		return () => clearInterval(timer);
-	}, []);
+	}, [timeLeft]); // Add timeLeft to dependency array
 
 	return (
 		<div className="loading-container">
+			<i className="bx bx-loader bx-spin"></i>
 			<p className="loading-text">
-				This is a project so we are running on a public cloud , Loading in {timeLeft} seconds or maybe less.
-				Thanks for your patience. Our website instance will run soon.
+				Thanks for visiting. <br />
+				It's a full-stack project, so we are running our backend on a public cloud.
+				<br />
+				Loading in {timeLeft} seconds or maybe less. <br />
+				Thanks for your patience. Our website instance will run soon. <br />
+				Website will refresh after timeout.
 			</p>
 		</div>
 	);
