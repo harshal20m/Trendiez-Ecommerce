@@ -2,7 +2,7 @@ const port = 4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken"); // generate the token and vewrify the token
+const jwt = require("jsonwebtoken"); // generate the token and verify the token
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
@@ -12,9 +12,8 @@ env.config();
 app.use(express.json());
 app.use(cors());
 
-//database connection with mongodb
+// Database connection with MongoDB
 const uri = process.env.MONGO_URI;
-// mongoose.connect("mongodb+srv://harshalmali:20harshu@cluster0.ams9r9t.mongodb.net/e-commerce");
 mongoose
 	.connect(uri)
 	.then(() => {
@@ -24,32 +23,44 @@ mongoose
 		console.error("Error connecting to MongoDB Atlas:", error);
 	});
 
-//API Creation
+// API Creation
 app.get("/", (req, res) => {
 	res.send("Express App is Running");
 });
 
-// Image Storage Engine
+// Cloudinary configuration
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const storage = multer.diskStorage({
-	destination: "./upload/images",
-	filename: (req, file, cb) => {
-		return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_API_KEY,
+	api_secret: process.env.CLOUD_API_SECRET,
+});
+
+// console.log(process.env.CLOUD_NAME);
+// console.log(process.env.CLOUD_API_KEY);
+// console.log(process.env.CLOUD_API_SECRET);
+
+const storage = new CloudinaryStorage({
+	cloudinary: cloudinary,
+	params: {
+		folder: "Trendiez",
+		allowed_formats: ["png", "jpg", "jpeg"],
 	},
 });
+
 const upload = multer({ storage: storage });
 
-//creating Upload Endpoint images
-app.use("/images", express.static("upload/images"));
-
+// Creating Upload Endpoint for images
 app.post("/upload", upload.single("product"), (req, res) => {
 	res.json({
 		success: 1,
-		image_url: `https://trendiez-ecommerce.onrender.com/images/${req.file.filename}`,
+		image_url: req.file.path,
 	});
 });
 
-//Schema for Creating Products
+// Schema for Creating Products
 const Product = mongoose.model("Product", {
 	id: {
 		type: Number,
@@ -73,7 +84,7 @@ const Product = mongoose.model("Product", {
 	},
 	old_price: {
 		type: Number,
-		reuired: true,
+		required: true,
 	},
 	date: {
 		type: Date,
@@ -112,7 +123,7 @@ app.post("/addproduct", async (req, res) => {
 	});
 });
 
-//Creating API for deleting Products
+// Creating API for deleting Products
 app.post("/removeproduct", async (req, res) => {
 	await Product.findOneAndDelete({ id: req.body.id });
 	console.log("removed");
@@ -122,14 +133,14 @@ app.post("/removeproduct", async (req, res) => {
 	});
 });
 
-//Creating API for getting all Products
+// Creating API for getting all Products
 app.get("/allproducts", async (req, res) => {
 	let products = await Product.find({});
 	console.log("All Products fetched");
 	res.send(products);
 });
 
-//creating Schema for user model
+// Creating Schema for user model
 const Users = mongoose.model("Users", {
 	name: {
 		type: String,
@@ -150,7 +161,7 @@ const Users = mongoose.model("Users", {
 	},
 });
 
-//creating Endpoint for registering the user
+// Creating Endpoint for registering the user
 app.post("/signup", async (req, res) => {
 	let check = await Users.findOne({ email: req.body.email });
 	if (check) {
@@ -174,20 +185,20 @@ app.post("/signup", async (req, res) => {
 			id: user.id,
 		},
 	};
-	const token = jwt.sign(data, "secret_ecom"); //salt passing here
+	const token = jwt.sign(data, "secret_ecom"); // salt passing here
 	res.json({
 		success: true,
 		token,
 	});
 });
 
-// creating endpoint for user login
+// Creating endpoint for user login
 app.post("/login", async (req, res) => {
 	let user = await Users.findOne({ email: req.body.email });
 	if (user) {
 		const passCompare = req.body.password === user.password;
 		if (passCompare) {
-			//if true will create
+			// if true will create
 			const data = {
 				user: {
 					id: user.id,
@@ -199,11 +210,11 @@ app.post("/login", async (req, res) => {
 			res.json({ success: false, errors: "Wrong Password" });
 		}
 	} else {
-		res.json({ sucess: false, errors: "Wrong Email Id" });
+		res.json({ success: false, errors: "Wrong Email Id" });
 	}
 });
 
-//creating api for newCollection data
+// Creating API for newCollection data
 app.get("/newcollections", async (req, res) => {
 	let products = await Product.find({});
 	let newcollection = products.slice(1).slice(-8);
@@ -211,7 +222,7 @@ app.get("/newcollections", async (req, res) => {
 	res.send(newcollection);
 });
 
-//creating endpoint for popular in women section
+// Creating endpoint for popular in women section
 app.get("/popularinwomen", async (req, res) => {
 	let products = await Product.find({ category: "women" });
 	let popular_in_women = products.slice(0, 4);
@@ -219,7 +230,7 @@ app.get("/popularinwomen", async (req, res) => {
 	res.send(popular_in_women);
 });
 
-//creating middleware to fetch user
+// Creating middleware to fetch user
 const fetchUser = async (req, res, next) => {
 	const token = req.header("auth-token");
 	if (!token) {
@@ -235,7 +246,7 @@ const fetchUser = async (req, res, next) => {
 	}
 };
 
-//creating endpoints for adding products in cartdata
+// Creating endpoints for adding products in cartdata
 app.post("/addtocart", fetchUser, async (req, res) => {
 	// console.log(req.body, req.user);
 	console.log("Added", req.body.itemId);
@@ -245,7 +256,7 @@ app.post("/addtocart", fetchUser, async (req, res) => {
 	res.send("Added");
 });
 
-//creating endpoints to remove product from cart data
+// Creating endpoints to remove product from cart data
 app.post("/removefromcart", fetchUser, async (req, res) => {
 	console.log("removed", req.body.itemId);
 	let userData = await Users.findOne({ _id: req.user.id });
@@ -254,11 +265,11 @@ app.post("/removefromcart", fetchUser, async (req, res) => {
 	res.send("Added");
 });
 
-//creating endpoint to get cart data
+// Creating endpoint to get cart data
 app.post("/getcart", fetchUser, async (req, res) => {
 	console.log("GetCart");
 	let userData = await Users.findOne({ _id: req.user.id });
-	// res.json(userData.cartData);
+	res.json(userData.cartData);
 });
 
 app.listen(port, (error) => {
