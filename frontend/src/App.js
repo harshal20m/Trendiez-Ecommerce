@@ -13,8 +13,8 @@ import kids_banner from "./Components/Assets/banner_kids.png";
 import About from "./Components/About/About";
 import Contact from "./Components/Contact/Contact";
 import Company from "./Components/Company/Company";
-import Payment from "./Components/Payment/Payment";
 import { useEffect, useState } from "react";
+import PaymentPage from "./Components/Payment/PaymentPage";
 
 const Loading = () => {
 	const [timeLeft, setTimeLeft] = useState(90); // 90 seconds countdown
@@ -85,7 +85,7 @@ function App() {
 						<Route path="/company" element={<Company />} />
 						<Route path="/about" element={<About />} />
 						<Route path="/contact" element={<Contact />} />
-						<Route path="/payment" element={<Payment />} />
+						<Route path="/payment" element={<PaymentPage />} />
 					</Routes>
 				)}
 				<Footer />

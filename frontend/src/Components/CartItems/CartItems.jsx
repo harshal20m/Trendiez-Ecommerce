@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import "./cartitems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartItems = () => {
 	const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
 	const [promoCode, setPromoCode] = useState("");
 	const [discountedTotal, setDiscountedTotal] = useState(null);
+	const navigate = useNavigate();
 
 	// Function to apply promo code and calculate discounted total
 	const applyPromoCode = () => {
@@ -17,9 +18,9 @@ const CartItems = () => {
 			PROMO3: 0.3, // 30% discount for PROMO3
 		};
 
+		const discountPercentage = promoDiscounts[promoCode];
+		const totalAmount = getTotalCartAmount();
 		if (promoDiscounts.hasOwnProperty(promoCode)) {
-			const discountPercentage = promoDiscounts[promoCode];
-			const totalAmount = getTotalCartAmount();
 			const discount = totalAmount * discountPercentage;
 			const discountedTotal = totalAmount - discount;
 			setDiscountedTotal(discountedTotal);
@@ -28,6 +29,20 @@ const CartItems = () => {
 		}
 	};
 
+	const handleCheckout = async () => {
+		try {
+			const amount = discountedTotal || getTotalCartAmount();
+			const response = await fetch("http://localhost:5000/createOrder", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ amount }),
+			});
+			const order = await response.json();
+			navigate("/payment", { state: { orderId: order.id, amount } });
+		} catch (error) {
+			console.error("Error creating order:", error);
+		}
+	};
 	return (
 		<div className="cartitems">
 			<div className="cartitems-format-main">
@@ -92,9 +107,10 @@ const CartItems = () => {
 							</div>
 						)}
 					</div>
-					<Link to={`/payment`} style={{ textDecoration: "none", color: "black" }}>
-						<button>PROCEED TO CHECKOUT</button>
-					</Link>
+
+					<button onClick={handleCheckout} style={{ textDecoration: "none", color: "black" }}>
+						PROCEED TO CHECKOUT
+					</button>
 				</div>
 				<div className="cartitems-promocode">
 					<p>If you have a promo code, Enter it here </p>

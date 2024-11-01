@@ -269,7 +269,68 @@ app.post("/removefromcart", fetchUser, async (req, res) => {
 app.post("/getcart", fetchUser, async (req, res) => {
 	console.log("GetCart");
 	let userData = await Users.findOne({ _id: req.user.id });
-	// res.json(userData.cartData);
+	res.json(userData.cartData);
+});
+
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+
+const razorpay = new Razorpay({
+	key_id: process.env.RAZORPAY_KEY_ID,
+	key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+/**
+ * Route to create an order
+ */
+app.post("/createOrder", async (req, res) => {
+	const { amount } = req.body;
+	const options = {
+		amount: amount * 100, // amount in paise (for example, 1000 paise = INR 10)
+		currency: "INR",
+		receipt: `receipt_${Date.now()}`,
+		payment_capture: 1, // 1 for automatic capture after payment
+	};
+
+	try {
+		const order = await razorpay.orders.create(options);
+		res.status(200).json(order);
+	} catch (error) {
+		res.status(500).send("Error creating order: " + error.message);
+	}
+});
+
+/**
+ * Route to capture payment manually
+ */
+app.post("/capturePayment", async (req, res) => {
+	const { paymentId, amount } = req.body;
+
+	try {
+		const response = await razorpay.payments.capture(paymentId, amount * 100, "INR");
+		res.status(200).json(response);
+	} catch (error) {
+		res.status(500).send("Error capturing payment: " + error.message);
+	}
+});
+
+/**
+ * Route to verify payment signature
+ */
+app.post("/verifyPayment", (req, res) => {
+	const { order_id, payment_id, signature } = req.body;
+
+	// Create a HMAC SHA256 signature using Razorpay key secret
+	const generated_signature = crypto
+		.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+		.update(order_id + "|" + payment_id)
+		.digest("hex");
+
+	if (generated_signature === signature) {
+		res.status(200).json({ success: true, message: "Payment verified successfully" });
+	} else {
+		res.status(400).json({ success: false, message: "Payment verification failed" });
+	}
 });
 
 app.listen(port, (error) => {

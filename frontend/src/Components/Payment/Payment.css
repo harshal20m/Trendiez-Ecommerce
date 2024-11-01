@@ -1,15 +1,97 @@
-/* PaymentComponent.css */
+/* Basic reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+
+/* Container for the payment form */
 .payment-container {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 2rem;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form header */
+.payment-container h2 {
 	text-align: center;
+	margin-bottom: 1.5rem;
+	color: #333;
+	font-size: 1.5rem;
 }
 
-.payment-image {
-	margin-top: 100px;
-	width: 350px; /* Adjust size as needed */
-	height: auto;
+/* Input field styling */
+.payment-form-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
 }
 
-.payment-heading {
-	font-size: 24px;
-	margin-top: 20px;
+.payment-form-group label {
+	margin-bottom: 0.5rem;
+	color: #555;
+	font-weight: bold;
+}
+
+.payment-form-group input {
+	padding: 0.8rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1rem;
+}
+
+/* Button styles */
+.payment-button-group {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+.payment-button-group button {
+	flex: 1;
+	padding: 0.8rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.payment-button-group button:first-child {
+	background-color: #4caf50;
+	color: #fff;
+}
+
+.payment-button-group button:first-child:hover {
+	background-color: #45a049;
+}
+
+.payment-button-group button:last-child {
+	background-color: #f44336;
+	color: #fff;
+}
+
+.payment-button-group button:last-child:hover {
+	background-color: #d32f2f;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+	.payment-container {
+		padding: 1.5rem;
+	}
+
+	.payment-button-group {
+		flex-direction: column;
+	}
+
+	.payment-button-group button {
+		margin-top: 0.5rem;
+	}
 }
