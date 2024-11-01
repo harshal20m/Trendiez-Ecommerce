@@ -15,6 +15,7 @@ import Contact from "./Components/Contact/Contact";
 import Company from "./Components/Company/Company";
 import { useEffect, useState } from "react";
 import PaymentPage from "./Components/Payment/PaymentPage";
+import Confirmation from "./Components/Payment/Confirmation";
 
 const Loading = () => {
 	const [timeLeft, setTimeLeft] = useState(90); // 90 seconds countdown
@@ -86,6 +87,7 @@ function App() {
 						<Route path="/about" element={<About />} />
 						<Route path="/contact" element={<Contact />} />
 						<Route path="/payment" element={<PaymentPage />} />
+						<Route path="/confirmation" element={<Confirmation />} />
 					</Routes>
 				)}
 				<Footer />

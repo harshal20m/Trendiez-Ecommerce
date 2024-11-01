@@ -62,17 +62,17 @@ const PaymentPage = () => {
 
 	const initiatePayment = async () => {
 		const options = {
-			key: "YOUR_RAZORPAY_KEY_ID", // Replace with your Razorpay Key ID
+			key: "rzp_test_11yKQvEcH7PcFU", // Replace with your Razorpay Key ID
 			amount: amount * 100,
 			currency: "INR",
-			name: "Your Company Name",
+			name: "Trendiez",
 			description: "Order Payment",
 			order_id: orderId,
 			handler: async (response) => {
 				const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
 
 				try {
-					const verifyResponse = await fetch("http://localhost:4000/verifyPayment", {
+					const verifyResponse = await fetch("https://trendiez-ecommerce.onrender.com/verifyPayment", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({
@@ -110,6 +110,7 @@ const PaymentPage = () => {
 		const razorpay = new window.Razorpay(options);
 		razorpay.open();
 	};
+	console.log(amount);
 
 	const handleCOD = () => {
 		alert("Order placed with Cash on Delivery");

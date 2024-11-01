@@ -1,0 +1,50 @@
+.confirmation-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background-color: #f9f9f9;
+	padding: 20px;
+	text-align: center;
+}
+
+h1 {
+	font-size: 2.5rem;
+	margin-bottom: 10px;
+	color: #28a745; /* Green color for success */
+}
+
+.confirmation-details {
+	margin: 20px 0;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-bottom: 10px;
+}
+
+p {
+	font-size: 1rem;
+	margin: 5px 0;
+}
+
+.home-button {
+	margin-top: 20px;
+	padding: 10px 20px;
+	font-size: 1rem;
+	color: white;
+	background-color: #007bff; /* Bootstrap primary color */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+	background-color: #0056b3; /* Darker shade on hover */
+}

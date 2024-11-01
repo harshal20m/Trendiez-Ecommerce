@@ -32,7 +32,7 @@ const CartItems = () => {
 	const handleCheckout = async () => {
 		try {
 			const amount = discountedTotal || getTotalCartAmount();
-			const response = await fetch("http://localhost:5000/createOrder", {
+			const response = await fetch("https://trendiez-ecommerce.onrender.com/createOrder", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ amount }),
